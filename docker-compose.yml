@@ -30,3 +30,19 @@ services:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
+
+  background-worker:
+    build:
+      context: .
+    command: sh -c "python manage.py process_tasks"
+    volumes:
+      - ./main_project:/main_project
+    environment:
+      - SECRET_KEY=devsecretkey
+      - DEBUG=1
+      - DB_HOST=db-DT
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - dtsistemas

@@ -24,6 +24,7 @@ EXPOSE 5095
 ENV PATH="/py/bin:$PATH"
 
 RUN adduser --disabled-password --no-create-home DTuser && \
+    chown -R DTuser:DTuser /py/lib/ && \
     mkdir -p /vol/web/static && \
     mkdir -p /vol/web/media && \
     chown -R DTuser:DTuser /vol  && \

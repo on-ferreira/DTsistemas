@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "collector",
     "synthesis",
     "monitor",
+    "background_task",
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,6 @@ LOGGING = {
         },
     },
 }
+
+#If True, will run the tasks asynchronous. This means the tasks will be processed in parallel (at the same time) instead of processing one by one (one after the other).
+BACKGROUND_TASK_RUN_ASYNC = True
