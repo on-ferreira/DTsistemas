@@ -34,7 +34,8 @@ services:
   background-worker:
     build:
       context: .
-    command: sh -c "python manage.py process_tasks"
+    command: sh -c "python manage.py clean_tasks && 
+                    python manage.py process_tasks"
     volumes:
       - ./main_project:/main_project
     environment:

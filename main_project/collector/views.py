@@ -6,7 +6,6 @@ from datetime import datetime
 
 def collector_view(request):
     logger.debug(f"Collector | This is a debug message from Collector at {datetime.now()}")
-    #worker = Collector()
-    #worker.run_communication()
-    run_sem_class(repeat=15)
+    worker = Collector()
+    worker.run_communication()
     return HttpResponse("You are in Collector")
