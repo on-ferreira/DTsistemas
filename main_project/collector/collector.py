@@ -4,11 +4,6 @@ from datetime import timedelta, datetime
 from logger import logger
 
 
-@background(schedule=15)
-def run_sem_class():
-    logger.debug(f"Collector | run_sem_class at {datetime.now()}")
-
-
 @background(schedule=timedelta(seconds=15))
 def run_communication_background(collector_dict):
     collector_instance = Collector(**collector_dict)
@@ -33,15 +28,13 @@ class Collector:
     def _establish_connection_and_send_data(self):
         logger.debug(f"Collector | _establish_connection_and_send_data at {datetime.now()}"
                      f"\nActive projects: {self.project_list}")
-        self.project_list.append({"runtime": str(datetime.now())})
-        self.run_communication()
-        """try:
+        try:
             response = requests.get(self.synthesis_url)
             projects = response.json()
             harvested_data = self._get_harvested_data(projects)
             self._send_harvested_data(harvested_data)
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Collector | Error establishing connection with synthesis: {e}")"""
+            logger.debug(f"Collector | Error establishing connection with synthesis: {e}")
 
     def _get_harvested_data(self, projects):
         harvested_data = {}
@@ -58,7 +51,7 @@ class Collector:
         if harvested_data:
             post_response = requests.post(self.communication_url, json=harvested_data, headers=headers)
             logger.debug(f"Collector | Status Code: {post_response.status_code}")
-        # Call self.run_communication again? With a different schedule time? This would make the collector communcates every 15sec + time necessary to do one communication
+        self.run_communication()
 
     def run_communication(self):
         # self._run_communication()

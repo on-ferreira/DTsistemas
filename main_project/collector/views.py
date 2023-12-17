@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from logger import logger
-from .collector import Collector, run_sem_class
+from .collector import Collector
 from datetime import datetime
 
 def collector_view(request):
