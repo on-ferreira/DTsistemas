@@ -8,6 +8,7 @@ services:
       sh -c "python manage.py wait_for_db &&
              python manage.py makemigrations &&
              python manage.py migrate &&
+             python manage.py createsuperuser --noinput &&
              python manage.py runserver 0.0.0.0:5095"
     ports:
       - 5095:5095
@@ -21,6 +22,9 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+      - DJANGO_SUPERUSER_PASSWORD=admin
     depends_on:
       - db-DT
 
@@ -34,7 +38,8 @@ services:
   background-worker:
     build:
       context: .
-    command: sh -c "python manage.py clean_tasks && 
+    command: sh -c "python manage.py wait_for_db &&
+                    python manage.py clean_tasks && 
                     python manage.py process_tasks"
     volumes:
       - ./main_project:/main_project
@@ -47,3 +52,4 @@ services:
       - DB_PASS=changeme
     depends_on:
       - dtsistemas
+      - db-DT
