@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["dtsistemas", "localhost"]
 ALLOWED_HOSTS.extend(
     filter(
         None,
@@ -164,5 +164,5 @@ LOGGING = {
     },
 }
 
-#If True, will run the tasks asynchronous. This means the tasks will be processed in parallel (at the same time) instead of processing one by one (one after the other).
+# If True, will run the tasks asynchronous. This means the tasks will be processed in parallel (at the same time) instead of processing one by one (one after the other).
 BACKGROUND_TASK_RUN_ASYNC = True
