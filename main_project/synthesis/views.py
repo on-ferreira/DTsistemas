@@ -44,10 +44,10 @@ def get_active_projects(request):
     return JsonResponse(project_dict, status=200)
 
 
-# Check for an alternative to this decorator, as it reduces security
+# Check for an alternative to this decorator. It reduces security
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
-def comunication_harverster_synthesis(request):
+def comunication_collector_synthesis(request):
     if request.method == "GET":
         # Query the database for data that needs updating
         update_list = {}
@@ -85,14 +85,9 @@ def comunication_harverster_synthesis(request):
         for (key, inner_data) in data.items():
             for (inner_key, tag_data) in inner_data.items():
                 tag_id = inner_key
-                save_value = ""
+                save_value = ''
                 try:
-                    if tag_id == '1':
-                        save_value = tag_data["value"]
-                    elif tag_id == '2':
-                        save_value = tag_data["data"][0]
-                    elif tag_id == '3':
-                        save_value = tag_data["results"][0]["question"]
+                    save_value = tag_data['value']
                 except:
                     logger.debug(f"Synthesis | Error saving tag: {tag_id}")
                 actual_project = get_project_by_id(key)
@@ -106,6 +101,7 @@ def comunication_harverster_synthesis(request):
         return JsonResponse({}, status=200)
 
 
+# TODO: Modify this functions to work with background-tasks instead of threads.
 # 1200 seconds = 20 minutes
 def purge_old_data_for_project(project, keep_data_interval=1200):
     try:
