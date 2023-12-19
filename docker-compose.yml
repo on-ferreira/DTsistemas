@@ -8,8 +8,9 @@ services:
       sh -c "python manage.py wait_for_db &&
              python manage.py makemigrations &&
              python manage.py migrate &&
-             python manage.py createsuperuser --noinput &&
+             python manage.py create_super_user_if_not_exists --username admin --email admin@ad.com --password admin &&
              python manage.py runserver 0.0.0.0:5095"
+    image: dtsistemas
     ports:
       - 5095:5095
     volumes:
@@ -22,11 +23,9 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
-      - DJANGO_SUPERUSER_USERNAME=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
-      - DJANGO_SUPERUSER_PASSWORD=admin
     depends_on:
       - db-DT
+    container_name: dtsistemas
 
   db-DT:
     image: postgres:13-alpine
@@ -34,6 +33,7 @@ services:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
+    container_name: db-DT
 
   background-worker:
     build:
@@ -53,3 +53,8 @@ services:
     depends_on:
       - dtsistemas
       - db-DT
+    container_name: worker
+
+networks:
+  my_network:
+    driver: bridge
