@@ -33,4 +33,6 @@ Este comando irá construir as imagens necessárias e iniciar dois containers: u
 
 ## Acesso ao Projeto:
 
-Após a conclusão do processo de inicialização, você pode acessar o projeto em http://localhost:5095 no seu navegador.
+Após a conclusão do processo de inicialização, você pode acessar o projeto em http://localhost:5095/"módulo" no seu navegador.
+
+É necessário adicionar projetos e tags manualmente no sistema antes de acessar a rota do Collector para começar o trabalho do background-tasks.
